@@ -1,4 +1,5 @@
 from environment import Environment
+from agent import Agent
 
 class VacumEnvironment(Environment):
     agent_position = 0
@@ -11,11 +12,15 @@ class VacumEnvironment(Environment):
         if(action == 'LEFT'):
             if(self.agent_position > 0):
                 self.agent_position -= 1
+                self.performance_measure -= 1
         elif(action == 'RIGHT'):
             if(self.agent_position < 1):
                 self.agent_position += 1
+                self.performance_measure -= 1
         elif(action == 'SUCK'):
             self.grid[self.agent_position] = 0
+        elif(action == 'NOOP'):
+            pass
         else:
             raise Exception('Invalid Action: ' + action)
     
@@ -32,11 +37,22 @@ class VacumEnvironment(Environment):
         print('agent_position: ' + str(self.agent_position))
         print('grid: ' + str(self.grid))
         print('')
-    
-def agent_program(percept):
-    if(percept[1] == 'DIRTY'):
-        return 'SUCK'
-    elif(percept[0] == 0):
-        return 'RIGHT'
-    else:
-        return 'LEFT'
+
+class VacumAgent(Agent):
+    initial_square_done = False
+
+    def agent_program(self, percept):
+        if(percept[1] == 'DIRTY'):
+            return 'SUCK'
+        elif(percept[0] == 0):
+            if(self.initial_square_done):
+                return 'NOOP'
+            else:
+                self.initial_square_done = True
+                return 'RIGHT'
+        else:
+            if(self.initial_square_done):
+                return 'NOOP'
+            else:
+                self.initial_square_done = True
+                return 'LEFT'
