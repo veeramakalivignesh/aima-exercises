@@ -1,3 +1,4 @@
+from agent import Agent
 class Environment:
     performance_measure = 0
     time_step = 0
@@ -14,11 +15,11 @@ class Environment:
     def describe_environment(self):
         raise Exception("Not Implemented")
     
-    def simulate(self, agent_program, num_time_steps):
+    def simulate(self, agent: Agent, num_time_steps):
         for i in range(0,num_time_steps):
             self.update_performance_measure()
             percept = self.get_percept()
-            action = agent_program(percept)
+            action = agent.agent_program(percept)
             self.perform_action(action)
             self.time_step += 1
         self.describe_environment()
