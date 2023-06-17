@@ -21,9 +21,9 @@ class VacumEnvironment(Environment):
     
     def get_percept(self):
         if(self.grid[self.agent_position] == 0):
-            return 'CLEAN'
+            return [self.agent_position, 'CLEAN']
         else:
-            return 'DIRTY'
+            return [self.agent_position, 'DIRTY']
     
     def describe_environment(self):
         print('')
@@ -34,4 +34,9 @@ class VacumEnvironment(Environment):
         print('')
     
 def agent_program(percept):
-    return 'RIGHT'
+    if(percept[1] == 'DIRTY'):
+        return 'SUCK'
+    elif(percept[0] == 0):
+        return 'RIGHT'
+    else:
+        return 'LEFT'

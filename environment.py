@@ -20,4 +20,5 @@ class Environment:
             percept = self.get_percept()
             action = agent_program(percept)
             self.perform_action(action)
+            self.time_step += 1
         self.describe_environment()
