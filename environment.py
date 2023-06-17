@@ -20,6 +20,7 @@ class Environment:
             self.update_performance_measure()
             percept = self.get_percept()
             action = agent.agent_program(percept)
+            # print(action)
             self.perform_action(action)
             self.time_step += 1
         self.describe_environment()
