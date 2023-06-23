@@ -1,3 +1,4 @@
+from random import sample
 from a_star_search import AStartSearch
 
 class NPuzzle(AStartSearch):
@@ -9,6 +10,17 @@ class NPuzzle(AStartSearch):
 
     def in_range(self, i, j):
         return i < self.n and i >= 0 and j < self.n and j >= 0
+
+    def randomize_initial_state(self):
+        self.reset()
+        state_input = sample({0, 1, 2, 3, 4, 5, 6, 7, 8}, 9)
+        state_config = []
+        for i in range(0, self.n):
+            state_config.append([])
+            for j in range(0, self.n):
+                state_config[i].append(state_input[3*i + j])
+        self.initial_state = tuple([tuple(item) for item in state_config])
+
 
     def is_goal(self, state):
         return state == ((0,1,2),(3,4,5),(6,7,8))
@@ -79,3 +91,9 @@ class NPuzzle(AStartSearch):
                 print(num, end=' ')
             print('')
         print('')
+
+# from n_puzzle import NPuzzle
+# obj = NPuzzle(1,1,3)
+# obj.initial_state = ((0, 7, 2), (3, 8, 4), (6, 5, 1))
+# obj.perform_search()
+# obj.display_stats()
