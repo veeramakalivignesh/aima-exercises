@@ -6,7 +6,7 @@ class NPuzzle(AStartSearch):
     def __init__(self, cost_wight, heuristic_weight, n):
         super().__init__(cost_wight, heuristic_weight)
         self.n = n
-        self.initial_state = ((7,2,4),(5,0,6),(8,3,1))
+        # self.initial_state = ((7,2,4),(5,0,6),(8,3,1))
 
     def in_range(self, i, j):
         return i < self.n and i >= 0 and j < self.n and j >= 0
