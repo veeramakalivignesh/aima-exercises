@@ -1,25 +1,24 @@
 from random import sample
-from a_star_search import AStartSearch
+from search_problem import SearchProblem
 
-class NPuzzle(AStartSearch):
+class NPuzzle(SearchProblem):
 
-    def __init__(self, cost_wight, heuristic_weight, n):
-        super().__init__(cost_wight, heuristic_weight)
+    def __init__(self, n):
+        super().__init__()
         self.n = n
-        # self.initial_state = ((7,2,4),(5,0,6),(8,3,1))
+        self.initial_state = ((7,2,4),(5,0,6),(8,3,1))
 
     def in_range(self, i, j):
         return i < self.n and i >= 0 and j < self.n and j >= 0
 
-    def randomize_initial_state(self):
-        self.reset()
+    def get_random_state(self):
         state_input = sample({0, 1, 2, 3, 4, 5, 6, 7, 8}, 9)
         state_config = []
         for i in range(0, self.n):
             state_config.append([])
             for j in range(0, self.n):
                 state_config[i].append(state_input[3*i + j])
-        self.initial_state = tuple([tuple(item) for item in state_config])
+        return tuple([tuple(item) for item in state_config])
 
 
     def is_goal(self, state):

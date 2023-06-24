@@ -1,20 +1,21 @@
 from queue import PriorityQueue
+from search_problem import SearchProblem
 
 # frontier: [((state, path_cost, parent_state), eval)]
 # expand_result: (to_state, edge_cost) 
 
 class BestFirstSearch:
 
-    def __init__(self):
-        self.initial_state = None
+    def __init__(self, search_problem: SearchProblem):
+        self.search_problem = search_problem
         self.search_history = {}
         self.frontier = PriorityQueue()
         self.reached_goal_state = None
         self.nodes_expanded = 0
         self.search_complete = False
 
-    def reset(self):
-        self.initial_state = None
+    def random_reset(self):
+        self.search_problem.initial_state = self.search_problem.get_random_state()
         self.search_history = {}
         self.frontier = PriorityQueue()
         self.reached_goal_state = None
@@ -24,20 +25,14 @@ class BestFirstSearch:
     def randomize_initial_state(self):
         raise Exception("Not Implemented")
 
-    def is_goal(self, state):
-        raise Exception("Not Implemented")
-
-    def expand(self, state):
-        raise Exception("Not Implemented")
-
     def evaluate(self, current_state, to_state, edge_cost):
         raise Exception("Not Implemented")
 
     def perform_search(self):
-        if(self.initial_state is None):
+        if(self.search_problem.initial_state is None):
             raise Exception("Initial state not set")
         
-        self.frontier.put((0, (self.initial_state, 0, None)))
+        self.frontier.put((0, (self.search_problem.initial_state, 0, None)))
         while not self.frontier.empty():
             _, (current_state, path_cost, parent_state) = self.frontier.get()
             if(current_state in self.search_history):
@@ -46,11 +41,11 @@ class BestFirstSearch:
                         continue 
             
             self.search_history[current_state] = (path_cost, parent_state)
-            if(self.is_goal(current_state)):
+            if(self.search_problem.is_goal(current_state)):
                 self.reached_goal_state = current_state
                 break
             
-            expand_result = self.expand(current_state)
+            expand_result = self.search_problem.expand(current_state)
             self.nodes_expanded += 1
             for (to_state, edge_cost) in expand_result:
                 if(to_state in self.search_history):
@@ -80,9 +75,6 @@ class BestFirstSearch:
 
         return (path_cost, solution_path)
 
-    def display_state(self, state):
-        print(state)
-
     def display_solution(self):
         path_cost, solution_path = self.get_solution()
         if(len(solution_path) == 0):
@@ -90,7 +82,7 @@ class BestFirstSearch:
             return
         print("cost = " + str(path_cost))
         for state in solution_path:
-            self.display_state(state)
+            self.search_problem.display_state(state)
     
     def display_stats(self):
         path_cost, solution_path = self.get_solution()

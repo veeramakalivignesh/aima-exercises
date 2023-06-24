@@ -1,11 +1,11 @@
 from math import sqrt
-from a_star_search import AStartSearch
+from search_problem import SearchProblem
 
 # obstacles: [vertiex_list]
-class PathFinder(AStartSearch):
+class PathFinder(SearchProblem):
 
-    def __init__(self, cost_wight, heuristic_weight, start, goal):
-        super().__init__(cost_wight, heuristic_weight)
+    def __init__(self, start, goal):
+        super().__init__()
         self.initial_state = start
         self.goal_state = goal
         self.obstacles = [
@@ -21,6 +21,9 @@ class PathFinder(AStartSearch):
 
     def is_goal(self, state):
         return state == self.goal_state
+    
+    def get_random_state(self):
+        return self.initial_state
     
     def point_edge_parity(point, edge):
         x, y = point
