@@ -9,6 +9,7 @@ class SearchProblem:
     def is_goal(self, state):
         raise Exception("Not Implemented")
 
+    # expand_result: (to_state, edge_cost)
     def expand(self, state):
         raise Exception("Not Implemented")
     

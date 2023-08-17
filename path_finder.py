@@ -22,9 +22,6 @@ class PathFinder(SearchProblem):
     def is_goal(self, state):
         return state == self.goal_state
     
-    def get_random_state(self):
-        return self.initial_state
-    
     def point_edge_parity(point, edge):
         x, y = point
         (x1, y1), (x2, y2) = edge
